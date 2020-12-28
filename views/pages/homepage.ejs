@@ -1,0 +1,147 @@
+<div id="homepage" class="m-auto w-100" v-cloak>
+  <div class="box container-fluid">
+    <div class="text-right w-100">
+      <a v-if="layoutData.page === 'sent'" href="/" style="float: left">< Back</a>
+      <a href="/logout">Sign out</a>
+    </div>
+    <div class="mt-2 text-center w-100">
+      <div v-if="layoutData.page !== 'sent'">
+        <div>
+          Your balance:
+        </div>
+        <div class="balance-text overflow-ellipsis" style="letter-spacing: -2px">
+          <span style="margin-right: 2px">฿</span><span>{{btcBalance.split('.')[0]}}</span><span>.</span><span
+            v-for="decThree in btcBalance.split('.')[1].match(/.{1,3}/g)"
+            class="mr-2"
+          >{{decThree}}</span>
+        </div>
+        <div class="balance-text" style="font-size: 1.4rem; line-height: 1.4rem">${{btcBalanceUsd}}</div>
+
+        <ul class="nav nav-pills justify-content-center mt-5">
+          <li @click="layoutData.page = 'receive'" class="nav-item cursor-pointer">
+            <span class="nav-link" :class="layoutData.page === 'receive' ? 'active' : ''">Receive</span>
+          </li>
+          <li @click="layoutData.page = 'send'" class="nav-item cursor-pointer">
+            <span class="nav-link" :class="layoutData.page === 'send' ? 'active' : ''">Send</span>
+          </li>
+        </ul>
+      </div>
+
+      <div v-if="layoutData.page === 'receive'">
+        <div class="w-100 mt-4 explainer-box">
+          <strong>To receive Bitcoin</strong>
+          <div>Copy your account address and give it to the person who is sending you the funds.</div>
+        </div>
+
+        <div class="mt-4 input-area">
+          <div class="input-label text-left">Your wallet address</div>
+          <div class="overflow-ellipsis" :class="layoutData.copyAddressBtn === 'Copied!' ? 'primary-text' : ''">{{btcAddress}}</div>
+        </div>
+
+        <button @click="copyToClipboard($event, btcAddress)" class="button mt-4 mb-4">{{layoutData.copyAddressBtn}}</button>
+      </div>
+      <div v-if="layoutData.page === 'send'">
+        <div class="w-100 mt-4 explainer-box">
+          <strong>To send Bitcoin</strong>
+          <div>Paste the destination address, amount and press Send. A small transaction fee will be taken by the network.</div>
+        </div>
+
+        <div class="mt-4 input-area" :class="sendData.addressValidationClass">
+          <div class="input-label text-left">Destination address</div>
+          <div class="d-flex">
+            <input v-model="sendData.destinationAddress" v-on:blur="validateDestinationAddress" type="text" placeholder="" class="input-input d-inline-block" style="width: calc(100% - 140px); padding-right: 10px">
+            <div class="dropdown">
+              <div
+                class="primary-dropdown secondary-btn d-inline-flex flex-center cursor-pointer"
+                style="width: 96px;"
+                id="currencyDropdownButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span style="width: 64px">{{sendData.accountType}}</span>
+                <span style="padding-left: 5px">
+                  <svg width="12" height="7" viewBox="0 0 12 7" fill="none" class="sc-fyjhYU ceyUFX"><path d="M0.97168 1L6.20532 6L11.439 1" stroke="#AEAEAE"></path></svg>
+                </span>
+              </div>
+              <div class="dropdown-menu" aria-labelledby="currencyDropdownButton">
+                <span @click="sendData.accountType = 'Email'" class="dropdown-item cursor-pointer">Email</span>
+                <span @click="sendData.accountType = 'Bitcoin'" class="dropdown-item cursor-pointer">Bitcoin</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 input-area text-left" :class="sendData.amountValidationClass">
+          <div class="input-label text-left">Amount</div>
+          <div class="d-flex">
+            <input v-model="sendData.amount" type="text" placeholder="" class="input-input d-inline-block" style="width: calc(100% - 140px); padding-right: 10px">
+            <div class="dropdown">
+              <div
+                class="primary-dropdown secondary-btn d-inline-flex flex-center cursor-pointer"
+                style="width: 70px;"
+                id="currencyDropdownButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span style="width: 39px">{{sendData.currency}}</span>
+                <span style="padding-left: 5px">
+                  <svg width="12" height="7" viewBox="0 0 12 7" fill="none" class="sc-fyjhYU ceyUFX"><path d="M0.97168 1L6.20532 6L11.439 1" stroke="#AEAEAE"></path></svg>
+                </span>
+              </div>
+              <div class="dropdown-menu" aria-labelledby="currencyDropdownButton">
+                <span @click="sendData.currency = 'BTC'" class="dropdown-item cursor-pointer">BTC</span>
+                <span @click="sendData.currency = 'USD'" class="dropdown-item cursor-pointer">USD</span>
+              </div>
+            </div>
+            <div @click="sendMax" class="secondary-btn d-inline-flex flex-center cursor-pointer" style="width: 60px; margin-left: 5px">Max</div>
+          </div>
+        </div>
+
+        <div class="invalid-feedback d-block mt-4" v-if="error">{{error}}</div>
+
+        <button @click="sendTransaction()" class="button mt-4 mb-4">
+          <span v-if="!layoutData.sending">Send</span>
+          <span v-else class="loading-dots">
+            <span style="top: -4px; font-size: 12px; margin: 0 2px;" class="loading-dot dot1 position-relative"><small>
+              <svg style="width: 12px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path></svg>
+            </small></span>
+            <span style="top: -4px; font-size: 12px; margin: 0 2px;" class="loading-dot dot2 position-relative"><small>
+              <svg style="width: 12px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path></svg>
+            </small></span>
+            <span style="top: -4px; font-size: 12px; margin: 0 2px;" class="loading-dot dot3 position-relative"><small>
+              <svg style="width: 12px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path></svg>
+            </small></span>
+            <span style="top: -4px; font-size: 12px; margin: 0 2px;" class="loading-dot dot4 position-relative"><small>
+              <svg style="width: 12px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path></svg>
+            </small></span>
+          </span>
+        </button>
+      </div>
+      <div v-if="layoutData.page === 'sent'" class="py-5 my-5">
+        <h5>
+          Transaction sent!
+        </h5>
+        <div>
+          You can check your recent transactions here: <a href="/transactions">transactions</a>
+        </div>
+      </div>
+
+      <!--<div v-if="showQR" style="height: 290px; position: relative">
+        <img
+          width="300"
+          height="300"
+          style="position: absolute; background-color: white; max-width: 100%; z-index: 5"
+          :alt="'Chart?cht=qr&amp;chl=bitcoin%3A' + btcAddress + '%3famount%3d0'"
+          :src="'https://chart.googleapis.com/chart?cht=qr&amp;chl=bitcoin%3A' + btcAddress + '%3Famount%3D0.001&amp;choe=UTF-8&amp;chs=300x300'"
+        >
+        <div style="position: absolute; left: calc(50% - 20px); top: calc(50% - 20px); z-index: 0; -webkit-transform:translate3d(0,0,0)">
+          <div class="loader"></div>
+        </div>
+      </div>-->
+
+    </div>
+  </div>
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

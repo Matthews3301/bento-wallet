@@ -1,0 +1,24 @@
+<div id="account-overview" class="m-auto w-100 text-center" v-cloak>
+  <div class="box container-fluid">
+    <h3 class="mb-4">My account</h3>
+    <div>
+      <div class="mb-2">
+        <span :class="[me.emailStatus === 'unconfirmed' || me.emailStatus === 'change-requested' ? 'text-muted' : '']">{{me.emailChangeCandidate ? me.emailChangeCandidate : me.emailAddress}}</span>
+        <span v-if="me.emailStatus === 'unconfirmed' || me.emailStatus === 'change-requested'" class="badge badge-pill badge-warning">Unverified</span>
+      </div>
+      <div>
+        <a href="/account/profile" class="button" style="text-decoration: inherit; color: #6DA8FF">Edit email</a>
+      </div>
+    </div>
+    <div>
+      <div class="mt-4 mb-2">
+        <span>••••••••••</span>
+      </div>
+      <div>
+        <a href="/account/password" class="button" style="text-decoration: inherit; color: #6DA8FF">Change password</a>
+      </div>
+    </div>
+    <p class="mt-4"><a href="/">< Back</a></p>
+  </div>
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

@@ -1,0 +1,12 @@
+<% /* Note: This is injected into `views/layouts/layout-email.ejs` */ %>
+<h3>Your transaction is on its way!</h3>
+<p>Here are the details:</p>
+<p>Destination: <%= destination  %></p>
+<p>Amount BTC: <%= amountBTC %></p>
+<p>Amount USD: <%= amountUSD %></p>
+<p>Fee: <%= fee %></p>
+<p>Time: <%= time %></p>
+<p>Transaction data: <a href="<%= explorer %>" title="Block explorer" target="_blank">block explorer</a></p>
+<br>
+<p style="margin-bottom: 0px;">All the best,</p>
+<p style="margin-top: 0px;">The Bento Team</p>

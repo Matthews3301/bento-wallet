@@ -1,0 +1,52 @@
+<div id="login" class="m-auto w-100" v-cloak>
+  <div class="box container-fluid">
+    <div class="text-center py-3">
+      <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="452.000000pt" height="452.000000pt" viewBox="0 0 452.000000 452.000000" preserveAspectRatio="xMidYMid meet" style="
+        width: 70px;
+        height: 70px;
+        display: block;
+        margin: auto;
+      ">
+          <g transform="translate(0.000000,452.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
+            <path d="M823 3936 c-59 -19 -103 -49 -157 -106 -59 -63 -84 -118 -96 -212
+              -13 -97 -13 -2619 0 -2716 13 -96 38 -150 99 -215 63 -66 135 -104 226 -117
+              71 -10 2067 -15 2077 -5 4 5 -13 130 -43 308 l-11 67 -424 0 -424 0 0 755 0
+              755 340 0 340 0 -6 53 c-3 28 -11 111 -17 182 l-12 130 -320 5 -320 5 -3 378
+              -2 377 755 0 755 0 0 -191 0 -191 181 -446 c100 -246 186 -451 190 -456 12
+              -14 11 1231 -1 1324 -6 45 -21 96 -37 128 -32 64 -110 139 -178 173 l-50 24
+              -1410 2 c-1140 1 -1418 -1 -1452 -11z m867 -736 l0 -380 -372 2 -373 3 -3 378
+              -2 377 375 0 375 0 0 -380z m0 -1035 l0 -285 -375 0 -375 0 0 285 0 285 375 0
+              375 0 0 -285z m0 -940 l0 -285 -375 0 -375 0 0 285 0 285 375 0 375 0 0 -285z"></path>
+            <path d="M3195 3412 c-44 -20 -82 -37 -84 -38 -5 -4 1049 -3076 1068 -3109 26
+              -45 74 -68 141 -68 111 1 190 77 190 182 0 27 -176 471 -611 1542 -336 827
+              -614 1509 -617 1515 -5 8 -33 0 -87 -24z"></path>
+            <path d="M2920 3391 c-71 -13 -85 -19 -88 -36 -4 -33 387 -3248 399 -3278 7
+              -15 20 -39 31 -52 18 -24 25 -25 122 -25 90 0 107 3 130 21 32 25 52 62 61
+              111 5 26 -70 476 -276 1650 -155 887 -285 1616 -288 1619 -3 3 -44 -2 -91 -10z"></path>
+          </g>
+        </svg>
+      <span style="font-size: 1.4rem">Bento Wallet</span>
+    </div>
+    <div class="mx-auto mt-4 text-center">
+      <ajax-form action="login" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submittedForm()">
+        <div class="form-group input-area">
+          <div class="input-label text-left">Email address</div>
+          <input type="email" placeholder="" class="input-input" :class="[formErrors.emailAddress ? 'is-invalid' : '']" v-model.trim="formData.emailAddress" autocomplete="email" focus-first>
+          <div class="invalid-feedback" v-if="formErrors.emailAddress">Please provide a valid email address.</div>
+        </div>
+        <div class="form-group input-area">
+          <div class="input-label text-left">Password</div>
+          <input type="password" placeholder="" class="input-input" :class="[formErrors.password ? 'is-invalid' : '']" v-model.trim="formData.password" autocomplete="current-password">
+          <div class="invalid-feedback" v-if="formErrors.password">Please enter your password.</div>
+        </div>
+        <cloud-error v-if="cloudError==='badCombo'">Incorrect credentials.</cloud-error>
+        <cloud-error v-else-if="cloudError"></cloud-error>
+        <div class="form-group mt-4">
+          <ajax-button :syncing="syncing" class="button">Sign in/up</ajax-button>
+        </div>
+      </ajax-form>
+      <p class="text-center"><a href="/password/forgot">Forgot your password?</a></p>
+    </div>
+  </div>
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
