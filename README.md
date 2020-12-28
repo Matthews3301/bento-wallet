@@ -24,6 +24,13 @@ nodeInfoRawTxUrl=https://testnet.blockchain.info/rawtx/XXXXX?cors=true&format=he
 nodePushTxUrl=https://api.blockcypher.com/v1/btc/test3/txs/push
 ```
 
+Other requirements:
+
+```
+sudo apt-get install redis
+
+```
+
 Then
 
 `npm run start-dev`
