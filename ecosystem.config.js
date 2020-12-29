@@ -15,7 +15,7 @@ module.exports = {
       NODE_ENV: 'production',
       network: 'testnet',
       dbUrl: 'mysql://user:password@host:port/database',
-      baseUrl: 'https://bento.me',
+      baseUrl: 'https://gobento.app',
       nodeInfoAddressUrl: 'https://testnet.blockchain.info/address/XXXXX?format=json',
       nodeInfoTxUrl: 'https://www.blockchain.com/btc-testnet/tx/XXXXX',
       nodeInfoUnspentUrl: 'https://testnet.blockchain.info/unspent?cors=true&active=XXXXX',
@@ -23,7 +23,7 @@ module.exports = {
       nodePushTxUrl: 'https://api.blockcypher.com/v1/btc/test3/txs/push',
       mailgunDomain: 'mg.bento.me',
       mailgunSecret: 'key-22222222222222222222',
-      emailAddress: 'info@bento.me'
+      emailAddress: 'info@gobento.app'
     },
   }],
 };
