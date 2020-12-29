@@ -240,6 +240,7 @@ module.exports = {
         );
       }
 
+      sails.log('Sending an email')
       var deferred = sails.helpers.sendHtmlEmail.with({
         htmlMessage: htmlEmailContents.replace(/\\n/g, '<br>'),
         domain: sails.config.custom.mailgunDomain,

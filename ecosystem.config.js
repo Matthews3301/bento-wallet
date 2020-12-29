@@ -3,7 +3,7 @@ module.exports = {
     name: 'app',
     script: 'app.js',
     args: ['--redis', '--prod'],
-    instances : '2',
+    instances : '1',
     exec_mode : 'cluster',
     watch: false,
     watch_delay: 10000,
