@@ -271,7 +271,7 @@ module.exports = {
       sails.log(r.statusText)
     }).catch(err => sails.log(err))
 
-    console.log(thex)
+    console.log(txid)
 
     await sails.helpers.sendTemplateEmail.with({
       to: userObj.emailAddress,

@@ -4,3 +4,4 @@
 * contact book of destination addresses
 * bento node
 * gmail, facebook SSO
+* automatic fiat currency selection based on geo
