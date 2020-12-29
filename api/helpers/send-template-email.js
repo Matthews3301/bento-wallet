@@ -192,7 +192,7 @@ module.exports = {
     var dontActuallySend = (
       sails.config.environment !== 'production' || isToAddressConsideredFake
     );
-    if (!dontActuallySend) {
+    if (dontActuallySend) {
       sails.log(
         'Skipped sending email, either because the "To" email address ended in "@example.com"\n'+
         'or because the current \`sails.config.environment\` is set to "test".\n'+
