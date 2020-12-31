@@ -5,10 +5,30 @@
 } %><!DOCTYPE html>
 <html>
   <head>
-    <title>Bento</title>
+    <title>Bento - Online Bitcoin Wallet</title>
 
     <% /* Viewport tag for sensible mobile support */ %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<% process.env.baseUrl %>">
+    <meta property="og:title" content="Bento - Online Bitcoin Wallet">
+    <meta property="og:description" content="An easy-to-use, lightweight, online Bitcoin wallet.">
+    <meta property="og:image" content="<% process.env.baseUrl %>/images/banner.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<% process.env.baseUrl %>">
+    <meta property="twitter:title" content="Bento - Online Bitcoin Wallet">
+    <meta property="twitter:description" content="An easy-to-use, lightweight, online Bitcoin wallet.">
+    <meta property="twitter:image" content="<% process.env.baseUrl %>/images/banner.jpg">
+
+    <link rel="canonical" href="<% process.env.baseUrl %>" />
+    <meta name="description" content="An easy-to-use, lightweight, free, online Bitcoin wallet.">
+    <meta name="keywords" content="Bitcoin, wallet, free, online wallet, crypto, bitcoin online wallet, cryptocurrency">
+
 
     <% /* Script tags should normally be included further down the page- but any
     scripts that load fonts (e.g. Fontawesome ≥v5) are special exceptions to the
@@ -24,7 +44,6 @@
     /* Otherwise, any such scripts are excluded, and we instead inject a
     robots/noindex meta tag to help prevent any unwanted visits from search engines. */
     else { %>
-    <meta name="robots" content="noindex">
     <% } %>
 
     <% /*
@@ -49,6 +68,7 @@
       <%- body %>
 
 
+      <% if (typeof landing === 'undefined') {%>
       <div class="footer d-flex">
         <div class="d-inline-block">
           <a href="/" title="Bento Wallet">
@@ -66,6 +86,7 @@
           <a href="/account" title="Account">Account</a>
         </div>
       </div>
+      <% }%>
     </div>
 
 

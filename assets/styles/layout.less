@@ -149,6 +149,24 @@ body {
   background-color: rgba(19, 54, 98, 0.44);
 }
 
+.white-button {
+  padding: 0.25rem 0.75rem;
+  background-color: rgb(255, 255, 255);
+  text-decoration: none !important;
+  color: rgb(1, 1, 1) !important;
+  border-radius: 8px;
+  display: inline-block;
+  font-weight: 400;
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1) 0s;
+}
+.white-button:hover {
+  outline-width: 0;
+  transform: translate3d(2px, 2px, 10px);
+}
+.white-button:active {
+  outline-width: 0;
+}
+
 .input-area {
   border-radius: 20px;
   border: 1px solid rgb(44, 47, 54);
@@ -337,4 +355,49 @@ body {
 }
 .branded-scrollbars::-webkit-scrollbar-thumb:hover {
   background: rgba(19, 54, 98, 0.44);
+}
+
+.landing-page-bcg {
+  width: 80vw;
+  height: 80vh;
+  user-select: none;
+  position: fixed;
+  left: 10vw;
+  top: 13vh;
+  background: radial-gradient(76.02% 75.41% at 1.84% 0%, rgb(255, 0, 122) 0%, rgb(2, 29, 67) 100%);
+  opacity: 0.6;
+}
+
+.landing-page-overlay {
+  background: url(/images/noise.png);
+  mix-blend-mode: overlay;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  user-select: none;
+  z-index: 99;
+}
+
+@media (max-width: 960px) {
+  .landing-page-bcg {
+    width: 100vw;
+    height: 100vh;
+    max-width: 1200px;
+    max-height: 720px;
+  }
+}
+
+@media (max-width: 600px) {
+  .landing-res-class1 {
+    margin-top: 0 !important;
+  }
+  .landing-res-class2 {
+    font-size: 2.3rem !important;
+  }
+  .landing-res-class3 {
+    font-size: 1.6rem !important;
+  }
 }
