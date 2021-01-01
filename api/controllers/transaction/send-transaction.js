@@ -73,9 +73,9 @@ module.exports = {
     let newAccountDestination = false
     if (destinationAddress.includes('@')) {
       const destinationUserObj = await User.findOne({emailAddress: destinationAddress.toLowerCase()})
-      destinationAccountEmail = destinationUserObj.emailAddress
       if (destinationUserObj) {
         destinationBtcAddress = destinationUserObj.bitcoinData.btcAddress
+        destinationAccountEmail = destinationUserObj.emailAddress
       } else {
 
         const { address, publicKey, mnemonic, wif } = await sails.helpers.createAddress()
@@ -287,7 +287,7 @@ module.exports = {
       subject: 'Transaction sent',
       template: 'email-transaction',
       templateData: {
-        destination: destinationAddress.includes('@') ? destinationAddress + ` (${destinationBtcAddress})` : destinationBtcAddress,
+        destination: destinationAddress.includes('@') ? destinationAddress + ` ${destinationBtcAddress}` : destinationBtcAddress,
         amountBTC: '฿' + amount,
         amountUSD: '$' + amountUsd,
         fee: transactionFee + 'sat',
