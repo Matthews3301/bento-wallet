@@ -119,7 +119,7 @@ module.exports = {
       }
     } else {
       destinationBtcAddress = destinationAddress
-      const destinationUserObj = await User.findOne({'bitcoinData.btcAddress': destinationAddress}).meta({enableExperimentalDeepTargets:true})
+      const destinationUserObj = await User.findOne({bitcoinData: {contains: `"${destinationAddress}"`}})
       if (destinationUserObj) destinationAccountEmail = destinationUserObj.emailAddress
     }
 
