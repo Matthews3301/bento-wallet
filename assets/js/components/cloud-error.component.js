@@ -43,7 +43,7 @@ parasails.registerComponent('cloud-error', {
   //  ╩ ╩ ╩ ╩ ╩╩═╝
   template: `
   <div>
-    <p :class="{ 'm-0': beWithoutMargins }" class="text-danger"><slot name="default">An error occured while processing your request. Please check your information and try again.</slot></p>
+    <p :class="{ 'm-0': beWithoutMargins }" class="text-danger"><slot name="default">An error occurred while processing your request. Please check your information and try again.</slot></p>
   </div>
   `,
 

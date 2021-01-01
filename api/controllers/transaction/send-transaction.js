@@ -69,8 +69,11 @@ module.exports = {
     }
 
     let destinationBtcAddress = ''
+    let destinationAccountEmail
+    let newAccountDestination = false
     if (destinationAddress.includes('@')) {
       const destinationUserObj = await User.findOne({emailAddress: destinationAddress.toLowerCase()})
+      destinationAccountEmail = destinationUserObj.emailAddress
       if (destinationUserObj) {
         destinationBtcAddress = destinationUserObj.bitcoinData.btcAddress
       } else {
@@ -112,9 +115,12 @@ module.exports = {
         })
 
         destinationBtcAddress = address
+        newAccountDestination = true
       }
     } else {
       destinationBtcAddress = destinationAddress
+      const destinationUserObj = await User.findOne({'bitcoinData.btcAddress': destinationAddress}).meta({enableExperimentalDeepTargets:true})
+      if (destinationUserObj) destinationAccountEmail = destinationUserObj.emailAddress
     }
 
     if (!destinationBtcAddress) {
@@ -273,6 +279,9 @@ module.exports = {
 
     console.log(txid)
 
+    amount = amount.toFixed(7)
+    const amountUsd = (amount * btcUsdPrice).toFixed(2)
+
     await sails.helpers.sendTemplateEmail.with({
       to: userObj.emailAddress,
       subject: 'Transaction sent',
@@ -280,12 +289,25 @@ module.exports = {
       templateData: {
         destination: destinationAddress.includes('@') ? destinationAddress + ` (${destinationBtcAddress})` : destinationBtcAddress,
         amountBTC: '฿' + amount,
-        amountUSD: '$' + amount * btcUsdPrice,
+        amountUSD: '$' + amountUsd,
         fee: transactionFee + 'sat',
         time: new Date().toGMTString(),
         explorer: process.env.nodeInfoTxUrl.replace('XXXXX', txid),
       }
     })
+
+    if (destinationAccountEmail && !newAccountDestination) {
+      await sails.helpers.sendTemplateEmail.with({
+        to: destinationAccountEmail,
+        subject: 'You just received ' + amount + ' BTC',
+        template: 'email-received',
+        templateData: {
+          sourceEmail: userObj.emailAddress,
+          amountBTC: '฿' + amount,
+          amountUSD: '$' + amountUsd,
+        }
+      })
+    }
 
     return {
       success: true,

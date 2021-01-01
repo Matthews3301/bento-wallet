@@ -1,0 +1,10 @@
+<% /* Note: This is injected into `views/layouts/layout-email.ejs` */ %>
+<h3>You received funds</h3>
+<p>Here are the details:</p>
+<p>Sender: <%= sourceEmail  %></p>
+<p>Amount BTC: <%= amountBTC %></p>
+<p>Amount USD: <%= amountUSD %></p>
+<p>You can view your transactions here: <a href="<%= sails.config.custom.baseUrl %>/transactions">Bento</a></p>
+<br>
+<p style="margin-bottom: 0px;">All the best,</p>
+<p style="margin-top: 0px;">The Bento Team</p>
