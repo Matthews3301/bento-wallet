@@ -17,6 +17,7 @@ mailgunSecret=key-2333322424242424334
 
 network=testnet
 
+nodeInfoMempoolFees=https://api.blockchain.info/mempool/fees
 nodeInfoAddressUrl=https://testnet.blockchain.info/address/XXXXX?format=json
 nodeInfoTxUrl=https://www.blockchain.com/btc-testnet/tx/XXXXX
 nodeInfoUnspentUrl=https://testnet.blockchain.info/unspent?cors=true&active=XXXXX

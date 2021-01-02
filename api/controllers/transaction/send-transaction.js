@@ -45,11 +45,47 @@ module.exports = {
     }
 
     const userObj = await User.findOne({id: this.req.session.userId})
+    if (!userObj) {
+      return {
+        success: false,
+        reason: 'User error',
+      }
+    }
 
     let btcBalance = userObj.bitcoinData.btcBalance || 0.0
     let btcBalanceUsd = userObj.bitcoinData.btcBalanceUsd || 0.0
+    const btcUsdPrice = await sails.helpers.getBtcUsdPrice()
 
-    const transactionFee = 500
+    function getAvgTransactionFee() {
+      return new Promise(async (resolve, reject) => {
+        const fetch = require('node-fetch')
+        fetch(process.env.nodeInfoMempoolFees, {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }).then(r => {
+          if (r.status !== 200) {
+            sails.log('ERROR connecting to blockchain.info: ' + r.statusText)
+            reject('Blockchain.info error')
+          } else {
+            r.json().then((r) => {
+              resolve(r)
+            })
+          }
+        }).catch(err => sails.log(err))
+      })
+    }
+
+    let transactionFee = 500
+    if (process.env.nodeInfoMempoolFees) {
+      const mempoolFees = await getAvgTransactionFee()
+      const minFee = (mempoolFees.limits.min * 220 * 0.8)
+      if ((btcUsdPrice * (minFee / 100000000.0)) > 2.0) {
+        // fee higher than $2, default to $2
+        transactionFee = Math.round((2 / btcUsdPrice) * 100000000.0)
+      } else {
+        transactionFee = Math.round(minFee)
+      }
+    }
     // const transactionFeeUsd = (transactionFee / 100000000.0) * (await sails.helpers.getBtcUsdPrice())
 
     if (currency === 'USD') {
@@ -132,7 +168,6 @@ module.exports = {
 
     const bitcoin = require('bitcoinjs-lib')
 
-    const btcUsdPrice = await sails.helpers.getBtcUsdPrice()
     if (currency === 'USD') {
       amount = parseFloat((parseFloat(amount) / btcUsdPrice))
     }
