@@ -50,6 +50,8 @@ module.exports.datastores = {
     ***************************************************************************/
     // adapter: 'sails-mysql',
     // url: 'mysql://user:password@host:port/database',
+    // charset: 'utf8mb4',
+    // collation: 'utf8mb4_unicode_ci'
 
   },
 
