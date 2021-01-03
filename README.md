@@ -2,6 +2,8 @@
 
 a lightweight, online Bitcoin wallet
 
+[https://gobento.app](https://gobento.app)
+
 ## To start
 
 Set environment variables for:
