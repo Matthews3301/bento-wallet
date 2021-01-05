@@ -314,8 +314,8 @@ module.exports = {
 
     console.log(txid)
 
-    amount = amount.toFixed(7)
-    const amountUsd = (amount * btcUsdPrice).toFixed(2)
+    const amountUsd = (parseFloat(amount) * btcUsdPrice).toFixed(2)
+    amount = parseFloat(amount).toFixed(7)
 
     await sails.helpers.sendTemplateEmail.with({
       to: userObj.emailAddress,
