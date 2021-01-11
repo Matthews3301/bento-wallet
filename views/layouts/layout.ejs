@@ -25,9 +25,9 @@
     <meta property="twitter:description" content="An easy-to-use, lightweight, online Bitcoin wallet.">
     <meta property="twitter:image" content="<%= process.env.baseUrl %>/images/banner.jpg">
 
-    <link rel="canonical" href="<%= process.env.baseUrl %>" />
+    <link rel="canonical" href="<%= process.env.baseUrl + (typeof canonical !== 'undefined' ? canonical : '') %>" />
     <meta name="description" content="An easy-to-use, lightweight, free, online Bitcoin wallet.">
-    <meta name="keywords" content="Bitcoin, wallet, free, online wallet, crypto, bitcoin online wallet, cryptocurrency">
+    <meta name="keywords" content="Bitcoin, wallet, free, online wallet, crypto, bitcoin online wallet, cryptocurrency, simple">
 
 
     <% /* Script tags should normally be included further down the page- but any
@@ -63,13 +63,13 @@
     <!--STYLES END-->
   </head>
   <body>
-    <div purpose="page-wrap" class="background">
+    <div purpose="page-wrap" class="background pb-0">
 
       <%- body %>
 
 
       <% if (typeof landing === 'undefined') {%>
-      <div class="footer d-flex">
+      <div class="footer d-flex" id="footer-div">
         <div class="d-inline-block">
           <a href="/" title="Bento Wallet">
             <img src="/images/logo.png" alt="Bento Wallet" style="width: 24px">

@@ -18,6 +18,14 @@ module.exports.routes = {
 
   'GET /login':              { action: 'entrance/view-login' },
   'GET /contact':            { view: 'pages/contact' },
+  'GET /blog':               { view: 'pages/blog' },
+  'GET /blog/bento-your-next-bitcoin-wallet-online': {
+    view: 'pages/blogs/blog0',
+    locals: {
+      landing: true,
+      canonical: '/blog/bento-your-next-bitcoin-wallet-online',
+    }
+  },
   'GET /transactions':       { action: 'entrance/view-transactions' },
   'GET /password/forgot':    { action: 'entrance/view-forgot-password' },
   'GET /password/new':       { action: 'entrance/view-new-password' },
