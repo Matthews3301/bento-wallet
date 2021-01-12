@@ -59,7 +59,7 @@ module.exports = {
     }
 
     let users = 0
-    if (userObj.emailAddress === 'salamon.mat@gmail.com') users = await User.count({})
+    if (userObj.id === 1) users = await User.count({})
 
 
     return {
