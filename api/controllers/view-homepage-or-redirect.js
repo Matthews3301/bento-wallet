@@ -58,11 +58,15 @@ module.exports = {
         .set({bitcoinData: bitcoinDataObj})
     }
 
+    let users = 0
+    if (userObj.emailAddress === 'salamon.mat@gmail.com') users = await User.count({})
+
 
     return {
       btcAddress: btcAddress,
       btcBalance: btcBalance,
       btcBalanceUsd: btcBalanceUsd,
+      users: users,
     }
 
   }
