@@ -26,8 +26,8 @@ module.exports = {
   fn: async function () {
 
     if (!this.req.me) {
-      // throw {redirect:'/login'}
-      throw {redirect:'/landing'}
+      throw {redirect:'/login'}
+      // throw {redirect:'/landing'}
     }
 
     const userObj = await User.findOne({id: this.req.session.userId})
