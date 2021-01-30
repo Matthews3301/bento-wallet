@@ -23,6 +23,8 @@ module.exports.routes = {
     view: 'pages/blogs/blog0',
     locals: {
       landing: true,
+      metaTitle: 'Where do you keep your Bitcoin? An overview of different wallet solutions.',
+      metaDescription: 'A Bitcoin wallet is a software program in which Bitcoins are stored. They provide the tools required to interact with a blockchain. The four main types are desktop, mobile, web, and hardware.',
       canonical: '/blog/bento-your-next-bitcoin-wallet-online',
     }
   },
